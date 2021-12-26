@@ -2,27 +2,32 @@ version: "3"
 services:
   nginx:
     image: nginx
+    container_name: "${COMPOSE_PROJECT_NAME}-nginx"
     ports:
-      - "80:80"
+      - "${HTTP_PORT}:80"
+    environment:
+      - NGINX_HOST=${HTTP_HOST}
     volumes:
       - ../app:/app:rw
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/default.conf.template:/etc/nginx/templates/default.conf.template
     depends_on:
       - php
       - mysql
   php:
     build: ./php
+    container_name: "${COMPOSE_PROJECT_NAME}-php"
     volumes:
       - ../app:/app:rw
   mysql:
     image: mysql:8
+    container_name: "${COMPOSE_PROJECT_NAME}-mysql"
     command: --default-authentication-plugin=mysql_native_password
     volumes:
       - ./mysql/data:/var/lib/mysql:rw
       - ./mysql/logs:/var/log/mysql:rw
-      - ./mysql/init:/docker-entrypoint-initdb.d
+      - ${DB_INIT_RPATH}:/docker-entrypoint-initdb.d
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: app
-      MYSQL_USER: user
-      MYSQL_PASS: user
+      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
+      MYSQL_DATABASE: "${COMPOSE_PROJECT_NAME}"
+      MYSQL_USER: "${DB_USER}"
+      MYSQL_PASS: "${DB_PASSWORD}"
