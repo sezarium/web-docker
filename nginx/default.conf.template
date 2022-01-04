@@ -1,7 +1,8 @@
 server {
     listen       80;
     root         /app/public;
-    server_name  ${NGINX_HOST};
+    server_name  ${NGINX_HOST} www.${NGINX_HOST};
+
     access_log   /var/log/nginx/access.log;
     error_log    /var/log/nginx/error.log;
 
