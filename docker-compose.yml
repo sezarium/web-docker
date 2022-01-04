@@ -2,7 +2,7 @@ version: "3"
 services:
   nginx:
     image: nginx
-    container_name: "${COMPOSE_PROJECT_NAME}-nginx"
+    container_name: "${COMPOSE_PROJECT_NAME}-nginx-dev"
     ports:
       - "${HTTP_PORT}:80"
     environment:
@@ -17,7 +17,7 @@ services:
       - internal
   php:
     build: ./php
-    container_name: "${COMPOSE_PROJECT_NAME}-php"
+    container_name: "${COMPOSE_PROJECT_NAME}-php-dev"
     volumes:
       - ../app:/app:rw
       - ./php/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
@@ -26,7 +26,7 @@ services:
       - internal
   mysql:
     image: mysql:8
-    container_name: "${COMPOSE_PROJECT_NAME}-mysql"
+    container_name: "${COMPOSE_PROJECT_NAME}-mysql-dev"
     command: --default-authentication-plugin=mysql_native_password
     volumes:
       - ./mysql/data:/var/lib/mysql:rw
