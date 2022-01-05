@@ -7,3 +7,4 @@ RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 RUN pear config-set php_ini "$PHP_INI_DIR/php.ini"
 RUN pecl install xdebug
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
