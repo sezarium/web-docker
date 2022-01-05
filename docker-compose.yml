@@ -34,7 +34,7 @@ services:
       - ${DB_INIT_RPATH}:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
-      MYSQL_DATABASE: "${COMPOSE_PROJECT_NAME}"
+      MYSQL_DATABASE: "${HTTP_HOST}"
       MYSQL_USER: "${DB_USER}"
       MYSQL_PASS: "${DB_PASSWORD}"
     networks:
@@ -46,3 +46,4 @@ networks:
       driver: default
       config:
         - subnet: 192.168.220.0/28
+          
