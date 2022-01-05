@@ -15,12 +15,14 @@ services:
     depends_on:
       - php
       - mysql
+    restart: always
   php:
     build: ./php
     container_name: "${HTTP_HOST}-php"
     volumes:
       - ../app:/app:rw
       - ./php/custom.config.ini:/usr/local/etc/php/conf.d/custom.config.ini
+    restart: always
   mysql:
     image: mysql:8
     container_name: "${HTTP_HOST}-mysql"
@@ -34,13 +36,4 @@ services:
       MYSQL_DATABASE: "${HTTP_HOST}"
       MYSQL_USER: "${DB_USER}"
       MYSQL_PASSWORD: "${DB_PASSWORD}"
-    networks:
-      - internal
-networks:
-  internal:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 192.168.220.0/28
-          
+    restart: always
