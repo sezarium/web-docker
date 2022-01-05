@@ -1,10 +1,18 @@
 server {
-    listen       80;
+    listen 80 default_server;
+    server_name _;
+    return 301 https://$host$request_uri;
+}
+server {
+    listen       443 ssl;
     root         /app/public;
     server_name  ${NGINX_HOST} www.${NGINX_HOST};
 
     access_log   /var/log/nginx/access.log;
     error_log    /var/log/nginx/error.log;
+
+    ssl_certificate     /app/private/letsencrypt/live/${NGINX_HOST}/cert.pem
+    ssl_certificate_key /app/private/letsencrypt/live/${NGINX_HOST}/privkey.pem
 
     location / {
         try_files $uri /index.php$is_args$args;
