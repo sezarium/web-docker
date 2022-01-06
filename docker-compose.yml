@@ -31,6 +31,7 @@ services:
       - ./mysql/data:/var/lib/mysql:rw
       - ./mysql/logs:/var/log/mysql:rw
       - ../app/db:/docker-entrypoint-initdb.d
+      - ./mysql/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
     environment:
       MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
       MYSQL_DATABASE: "${HTTP_HOST}"
