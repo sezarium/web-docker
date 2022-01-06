@@ -4,3 +4,6 @@ RUN apt-get update && \
     apt-get autoclean
 RUN docker-php-ext-install gd zip mysqli pdo pdo_mysql
 RUN cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+COPY ./custom_entrypoint.sh /
+RUN chmod +x /custom_entrypoint.sh
+ENTRYPOINT ["/custom_entrypoint.sh"]
