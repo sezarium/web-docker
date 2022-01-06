@@ -36,7 +36,7 @@ services:
       MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
       MYSQL_DATABASE: "${HTTP_HOST}"
       MYSQL_USER: "${DB_USER}"
-      MYSQL_PASS: "${DB_PASSWORD}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
     networks:
       - internal
 networks:
