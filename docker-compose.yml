@@ -39,11 +39,18 @@ services:
       MYSQL_PASSWORD: "${DB_PASSWORD}"
     networks:
       - internal
+  web-docker-adminer:
+    image: adminer
+    ports:
+      - "8088:8080"
+    depends_on:
+      - mysql
+    networks:
+      - internal
 networks:
   internal:
     driver: bridge
     ipam:
       driver: default
       config:
-        - subnet: 192.168.220.0/28
-          
+        - subnet: "${DOCKER_SUBNET}"
