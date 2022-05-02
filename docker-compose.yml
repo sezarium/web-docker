@@ -24,6 +24,8 @@ services:
       - ./php/custom.config.ini:/usr/local/etc/php/conf.d/custom.config.ini
     networks:
       - internal
+    environment:
+      XDEBUG_CONFIG: "client_host=${PHP_DEBUG_HOST}"
   mysql:
     image: mysql:8
     container_name: "${COMPOSE_PROJECT_NAME}-mysql-dev"

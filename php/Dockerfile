@@ -8,3 +8,4 @@ RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 RUN pear config-set php_ini "$PHP_INI_DIR/php.ini"
 RUN pecl install xdebug
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN echo > /var/log/xdebug.log
