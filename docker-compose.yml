@@ -2,9 +2,10 @@ version: "3"
 services:
   nginx:
     image: nginx
-    container_name: "${COMPOSE_PROJECT_NAME}-nginx-dev"
+    container_name: "${COMPOSE_PROJECT_NAME}-nginx"
     ports:
-      - "${HTTP_PORT}:80"
+      - "80:80"
+      - "443:443"
     environment:
       - NGINX_HOST=${HTTP_HOST}
     volumes:
@@ -13,22 +14,17 @@ services:
     depends_on:
       - php
       - mysql
-    networks:
-      - internal
+    restart: always
   php:
     build: ./php
-    container_name: "${COMPOSE_PROJECT_NAME}-php-dev"
+    container_name: "${COMPOSE_PROJECT_NAME}-php"
     volumes:
       - ../app:/app:rw
-      - ./php/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
       - ./php/custom.config.ini:/usr/local/etc/php/conf.d/custom.config.ini
-    networks:
-      - internal
-    environment:
-      XDEBUG_CONFIG: "client_host=${PHP_DEBUG_HOST}"
+    restart: always
   mysql:
     image: mysql:8
-    container_name: "${COMPOSE_PROJECT_NAME}-mysql-dev"
+    container_name: "${COMPOSE_PROJECT_NAME}-mysql"
     command: --default-authentication-plugin=mysql_native_password
     volumes:
       - ./mysql/data:/var/lib/mysql:rw
@@ -39,20 +35,4 @@ services:
       MYSQL_DATABASE: "${HTTP_HOST}"
       MYSQL_USER: "${DB_USER}"
       MYSQL_PASSWORD: "${DB_PASSWORD}"
-    networks:
-      - internal
-  web-docker-adminer:
-    image: adminer
-    ports:
-      - "8088:8080"
-    depends_on:
-      - mysql
-    networks:
-      - internal
-networks:
-  internal:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: "${DOCKER_SUBNET}"
+    restart: always
